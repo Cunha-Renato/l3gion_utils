@@ -1,0 +1,8 @@
+[package]
+name = "testing"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+l3gion_utils = { path = "../", features = [
+]}

@@ -1,0 +1,22 @@
+[package]
+name = "l3gion_utils"
+version = "0.1.0"
+edition = "2024"
+
+[workspace]
+members = ["testing"]
+
+[dependencies]
+
+[features]
+bytes = []
+reader = []
+writer = []
+audio_codec = []
+
+all = [
+    "bytes", 
+    "reader",
+    "writer",
+    "audio_codec",
+]
