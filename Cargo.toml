@@ -3,9 +3,6 @@ name = "l3gion_utils"
 version = "0.1.0"
 edition = "2024"
 
-[workspace]
-members = ["testing"]
-
 [dependencies]
 
 [features]
@@ -14,7 +11,7 @@ reader = []
 writer = []
 audio_codec = []
 
-all = [
+default = [
     "bytes", 
     "reader",
     "writer",

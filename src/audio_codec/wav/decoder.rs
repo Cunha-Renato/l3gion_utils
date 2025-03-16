@@ -1,9 +1,9 @@
-use std::{fmt, fs, io, path};
 use super::{
-    super::{decoder::LgDecoder, error::Error, AudioInfo, Result},
-    SampleType
+    super::{AudioInfo, Result, decoder::LgDecoder, error::Error},
+    SampleType,
 };
-use super::{reader::LgWavReader, LgWavSampleIter, WavChunks};
+use super::{LgWavSampleIter, WavChunks, reader::LgWavReader};
+use std::{fmt, fs, io, path};
 
 pub struct LgWavDecoder<R: io::Read> {
     info: AudioInfo,
@@ -24,27 +24,29 @@ impl LgWavDecoder<io::BufReader<fs::File>> {
         let file = fs::File::open(path)?;
         // Already checks the header.
         let mut reader = LgWavReader::new(io::BufReader::new(file))?;
-        
+
         // Just in case the fmt chunk is not present.
         let mut info = Err(Error::WrongFmt);
         let sample_len;
 
-        loop { 
+        loop {
             let chunk = reader.read_next_chunk();
             match chunk? {
-                WavChunks::FMT(wav_info) => info = Ok(wav_info),
-                WavChunks::FACT => (),
-                WavChunks::DATA(d_len) => {
+                WavChunks::Fmt(wav_info) => info = Ok(wav_info),
+                WavChunks::Fact => (),
+                WavChunks::Data(d_len) => {
                     match &mut info {
-                        Ok(info) => sample_len = (d_len / (info.bits_per_sample as u32 / 8)) as usize,
+                        Ok(info) => {
+                            sample_len = (d_len / (info.bits_per_sample as u32 / 8)) as usize
+                        }
                         Err(_) => return Err(Error::WrongFmt),
                     }
 
                     break;
-                },
+                }
             }
-        } 
-        
+        }
+
         Ok(Self {
             info: info?,
             sample_len,
@@ -76,5 +78,10 @@ impl<R: io::Read> LgDecoder for LgWavDecoder<R> {
     #[inline(always)]
     fn len(&self) -> usize {
         self.sample_len
+    }
+
+    #[inline(always)]
+    fn is_empty(&self) -> bool {
+        self.sample_len == 0
     }
 }

@@ -2,7 +2,7 @@
 pub enum Error {
     Io(std::io::Error),
     Conversion(String),
-    
+
     WrongHeader,
     WrongFmt,
     WrongFmtInfo(String),

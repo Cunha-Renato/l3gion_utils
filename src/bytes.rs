@@ -19,7 +19,7 @@ pub mod conversions {
         (value as f32) / i32::MAX as f32
     }
 
-    #[inline(always)] 
+    #[inline(always)]
     pub const fn f64_to_i32(value: f64) -> i32 {
         (value * (i32::MAX as f64)) as i32
     }

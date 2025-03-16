@@ -5,22 +5,22 @@ pub trait LgWriter {
 
     fn go_to(&mut self, position: usize) -> Result<usize, Self::Error>;
 
-    fn write_le_u8(&mut self, data: u8) -> Result<usize, Self::Error>;
+    fn write_u8(&mut self, data: u8) -> Result<usize, Self::Error>;
 
     fn write_le_u16(&mut self, data: u16) -> Result<usize, Self::Error>;
-    
+
     fn write_le_u32(&mut self, data: u32) -> Result<usize, Self::Error>;
 
     fn write_le_i8(&mut self, data: i8) -> Result<usize, Self::Error>;
-    
+
     fn write_le_i16(&mut self, data: i16) -> Result<usize, Self::Error>;
-    
+
     fn write_le_i32(&mut self, data: i32) -> Result<usize, Self::Error>;
 
     fn write_le_i32_24(&mut self, data: i32) -> Result<(), Self::Error>;
-    
+
     fn write_le_f32(&mut self, data: f32) -> Result<(), Self::Error>;
-    
+
     fn write_le_f64(&mut self, data: f64) -> Result<(), Self::Error>;
 }
 impl<W: io::Write + io::Seek> LgWriter for W {
@@ -30,9 +30,8 @@ impl<W: io::Write + io::Seek> LgWriter for W {
         Ok(self.seek(io::SeekFrom::Start(position as u64))? as usize)
     }
 
-    fn write_le_u8(&mut self, data: u8) -> Result<usize, Self::Error> {
+    fn write_u8(&mut self, data: u8) -> Result<usize, Self::Error> {
         self.write(&[data])
-
     }
 
     fn write_le_u16(&mut self, data: u16) -> Result<usize, Self::Error> {
@@ -45,8 +44,8 @@ impl<W: io::Write + io::Seek> LgWriter for W {
 
     fn write_le_i8(&mut self, data: i8) -> Result<usize, Self::Error> {
         let data = crate::bytes::conversions::i8_to_u8(data);
-        
-        self.write_le_u8(data)
+
+        self.write_u8(data)
     }
 
     fn write_le_i16(&mut self, data: i16) -> Result<usize, Self::Error> {

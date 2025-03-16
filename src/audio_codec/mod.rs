@@ -1,7 +1,7 @@
+pub mod decoder;
+pub mod encoder;
 pub mod error;
 pub mod sample;
-pub mod encoder;
-pub mod decoder;
 pub mod wav;
 
 pub type Result<T> = std::result::Result<T, error::Error>;

@@ -13,27 +13,13 @@ pub mod audio_codec;
 // Crate level.
 
 #[cfg(all(
-    any(
-        feature = "reader", 
-        feature = "writer",
-        feature = "audio_codec",
-    ), 
+    any(feature = "reader", feature = "writer", feature = "audio_codec",),
     not(feature = "bytes")
 ))]
 pub(crate) mod bytes;
 
-#[cfg(all(
-    any(
-        feature = "audio_codec",
-    ), 
-    not(feature = "reader")
-))]
+#[cfg(all(feature = "audio_codec", not(feature = "reader")))]
 pub(crate) mod reader;
 
-#[cfg(all(
-    any(
-        feature = "audio_codec",
-    ), 
-    not(feature = "writer")
-))]
+#[cfg(all(feature = "audio_codec", not(feature = "writer")))]
 pub(crate) mod writer;
