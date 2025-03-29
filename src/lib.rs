@@ -10,6 +10,9 @@ pub mod writer;
 #[cfg(feature = "audio_codec")]
 pub mod audio_codec;
 
+#[cfg(feature = "atlas_gen")]
+pub mod atlas_gen;
+
 // Crate level.
 
 #[cfg(all(

@@ -4,16 +4,33 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+thiserror = "2.0"
+
+# Optionals.
+
+nalgebra = { version = "0.33", optional = true }
+image = { version = "0.25", default-features = false, features = ["png"], optional = true }
+
+# Font.
+ttf-parser = { version = "0.24", optional = true }
+fdsm = { version = "0.6", features = ["ttf-parser"], optional = true }
 
 [features]
 bytes = []
 reader = []
 writer = []
 audio_codec = []
+atlas_gen = [
+    "dep:nalgebra",
+    "dep:image",
+    "dep:ttf-parser",
+    "dep:fdsm",
+]
 
-default = [
+all = [
     "bytes", 
     "reader",
     "writer",
     "audio_codec",
+    "atlas_gen"
 ]
